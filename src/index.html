@@ -25,7 +25,7 @@
   --border:#e2e6f0;--border2:#cbd0e0;--text:#1a1f36;--text2:#4a5272;--text3:#8892b0;
   --or:#e8620a;--or2:#ff8c38;--or-bg:rgba(232,98,10,.08);--or-bd:rgba(232,98,10,.25);
   --pt:#0ea5e9;--pd:#8b5cf6;--rh:#10b981;--red:#ef4444;--green:#22c55e;
-  --nav-h:68px;--r:14px;
+  --nav-h:64px;--r:14px;
   --sh:0 2px 12px rgba(26,31,54,.08);--sh-lg:0 8px 40px rgba(26,31,54,.14);
   --font:'Plus Jakarta Sans',sans-serif;--mono:'JetBrains Mono',monospace;
 }
@@ -62,8 +62,19 @@ button{cursor:pointer;font-family:var(--font);border:none}
 .btn-cta{background:linear-gradient(135deg,var(--or),var(--or2));color:#fff;
   font-size:13px;font-weight:700;padding:9px 14px;border-radius:8px;transition:.2s;white-space:nowrap;flex-shrink:0}
 .btn-cta:hover{box-shadow:0 4px 20px rgba(232,98,10,.4);transform:translateY(-1px)}
-.ham{display:none;background:none;border:1px solid var(--border);
-  color:var(--text2);padding:8px 10px;border-radius:8px;font-size:18px}
+.ham{
+  display:none;
+  background:none;
+  border:1.5px solid var(--border);
+  color:var(--text2);
+  padding:9px 10px;
+  border-radius:9px;
+  cursor:pointer;
+  line-height:0;
+  flex-shrink:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.ham:active{background:var(--bg);border-color:var(--or);color:var(--or)}
 /* ── MOBILE RESPONSIVE ── */
 @media(max-width:1100px){
   .btn-phone{display:none!important}
@@ -144,12 +155,62 @@ button{cursor:pointer;font-family:var(--font);border:none}
   .brands-grid{grid-template-columns:repeat(2,1fr)!important}
   .type-row{gap:4px!important}
 }
-#mob-nav{display:none;position:fixed;inset:0;top:var(--nav-h);z-index:999;
-  background:rgba(255,255,255,.98);flex-direction:column;align-items:center;
-  justify-content:center;gap:20px}
+#mob-nav{
+  display:none;
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  z-index:1100;
+  background:rgba(255,255,255,.99);
+  backdrop-filter:blur(12px);
+  flex-direction:column;
+  align-items:stretch;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
 #mob-nav.open{display:flex}
-#mob-nav a{font-size:26px;font-weight:700;color:var(--text2);transition:.2s}
-#mob-nav a:hover{color:var(--or)}
+.mob-close{
+  position:absolute;top:16px;right:16px;
+  background:var(--bg);border:1px solid var(--border);
+  color:var(--text2);border-radius:10px;
+  width:42px;height:42px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:10;flex-shrink:0;
+}
+.mob-links{
+  display:flex;flex-direction:column;
+  padding:80px 28px 20px;
+  gap:4px;flex:1;
+}
+.mob-links a{
+  font-size:20px;font-weight:700;color:var(--text);
+  padding:14px 16px;border-radius:12px;
+  text-decoration:none;transition:.15s;
+  display:flex;align-items:center;gap:12px;
+  border:1px solid transparent;
+}
+.mob-links a:active,.mob-links a:hover{
+  background:var(--or-bg);color:var(--or);
+  border-color:var(--or-bd);
+}
+.mob-bottom{
+  padding:16px 28px 32px;
+  display:flex;flex-direction:column;gap:10px;
+  border-top:1px solid var(--border);
+}
+.mob-wa{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:#25d366;color:#fff!important;
+  font-size:16px;font-weight:700;
+  padding:14px;border-radius:12px;
+  text-decoration:none;
+}
+.mob-tel{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--or);color:#fff!important;
+  font-size:16px;font-weight:700;
+  padding:14px;border-radius:12px;
+  text-decoration:none;
+}
 
 /* ── TICKER ── */
 #ticker{position:fixed;top:var(--nav-h);left:0;right:0;z-index:990;
@@ -174,6 +235,10 @@ button{cursor:pointer;font-family:var(--font);border:none}
 .tick-ts{font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:8px}
 
 main{padding-top:calc(var(--nav-h)+48px)}
+@media(max-width:540px){
+  main{padding-top:calc(var(--nav-h)+44px)!important}
+  :root{--nav-h:60px}
+}
 .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
 
 /* ── HERO ── */
@@ -562,6 +627,28 @@ footer{background:var(--text);color:rgba(255,255,255,.85);padding:48px 0 24px}
 @media(max-width:1050px){
   .nl{font-size:12px!important;padding:6px 8px!important}
 }
+
+@media(max-width:360px){
+  .logo-text{display:none}
+}
+@media(max-width:400px){
+  .logo-text em,.logo-text{font-size:15px!important}
+}
+
+/* Touch targets */
+@media(max-width:920px){
+  .btn-cta{padding:10px 14px!important;font-size:13px!important}
+  .ham{padding:10px 11px!important;min-width:42px;min-height:42px}
+}
+/* Safe area for notched phones */
+@supports(padding-bottom:env(safe-area-inset-bottom)){
+  .mob-bottom{padding-bottom:calc(32px + env(safe-area-inset-bottom))!important}
+}
+/* Prevent zoom on input focus iOS */
+input,select,textarea{font-size:16px!important}
+@media(min-width:541px){
+  input,select,textarea{font-size:14px!important}
+}
 </style>
 </head>
 <body>
@@ -619,17 +706,34 @@ footer{background:var(--text);color:rgba(255,255,255,.85);padding:48px 0 24px}
       <a class="btn-phone" href="tel:+40712345678" style="text-decoration:none">📞 +40 712 345 678</a>
       <button class="btn-cta" onclick="goTo('#eval-sec')">⚡ Evaluează acum</button>
     </div>
-    <button class="ham" onclick="toggleMob()">☰</button>
+    <button class="ham" onclick="toggleMob()" aria-label="Meniu">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect y="3" width="22" height="2.5" rx="1.25" fill="currentColor"/>
+        <rect y="10" width="22" height="2.5" rx="1.25" fill="currentColor"/>
+        <rect y="17" width="22" height="2.5" rx="1.25" fill="currentColor"/>
+      </svg>
+    </button>
   </div>
 </nav>
 <div id="mob-nav">
-  <a href="#hero-sec" onclick="closeMob()">Acasă</a>
-  <a href="#cod-sec" onclick="closeMob()">Caută Cod</a>
-  <a href="#eval-sec" onclick="closeMob()">Evaluator</a>
-  <a href="#brands-sec" onclick="closeMob()">Mărci</a>
-  <a href="#how-sec" onclick="closeMob()">Cum funcționează</a>
-  <a href="#about-sec" onclick="closeMob()">Despre noi</a>
-  <a href="#contact-sec" onclick="closeMob()">Contact</a>
+  <button class="mob-close" onclick="closeMob()" aria-label="Închide">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  </button>
+  <nav class="mob-links">
+    <a href="#hero-sec" onclick="closeMob()">🏠 Acasă</a>
+    <a href="#cod-sec" onclick="closeMob()">🔍 Caută Cod</a>
+    <a href="#eval-sec" onclick="closeMob()">⚡ Evaluator</a>
+    <a href="#brands-sec" onclick="closeMob()">🚗 Mărci</a>
+    <a href="#how-sec" onclick="closeMob()">📋 Cum funcționează</a>
+    <a href="#about-sec" onclick="closeMob()">ℹ️ Despre noi</a>
+    <a href="#contact-sec" onclick="closeMob()">📞 Contact</a>
+  </nav>
+  <div class="mob-bottom">
+    <a href="https://wa.me/40712345678" target="_blank" class="mob-wa">💬 WhatsApp</a>
+    <a href="tel:+40712345678" class="mob-tel">📞 +40 712 345 678</a>
+  </div>
 </div>
 
 <div id="ticker">
@@ -3803,8 +3907,15 @@ function goTo(sel){
   if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
   closeMob();
 }
-function toggleMob(){ document.getElementById('mob-nav').classList.toggle('open'); }
-function closeMob(){ document.getElementById('mob-nav').classList.remove('open'); }
+function toggleMob(){
+  var nav = document.getElementById('mob-nav');
+  nav.classList.toggle('open');
+  document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+}
+function closeMob(){
+  document.getElementById('mob-nav').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
 function toast(msg, type){
   type = type || '';
